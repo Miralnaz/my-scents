@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HN SCENTS | Luxury Perfume Brand</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060f0a; --bg2:#0c1b12; --card:#122317; --gold:#c9a227; --gold2:#e9cf7a;
+  --text:#eef2ea; --muted:#93a89b; --line:#1e3324;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.reveal{opacity:0}
+.reveal.in{animation:fadeUp .8s ease forwards}
+.bottle-badge{width:78px;height:78px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;
+  background:radial-gradient(circle at 35% 30%,#12271a,var(--bg2) 75%);border:1px solid var(--gold);box-shadow:0 0 18px -4px rgba(205,161,94,.5)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;line-height:1.6}
+h1,h2,h3,.logo{font-family:'Playfair Display',serif}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.overflow-x{overflow-x:auto}
+
+/* NAV */
+header{position:sticky;top:0;z-index:50;background:rgba(14,13,12,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto}
+.logo{font-size:26px;letter-spacing:3px;color:var(--gold2);font-weight:700}
+.logo span{color:var(--text);font-size:11px;letter-spacing:2px;display:block;font-family:'Poppins';font-weight:300;margin-top:-4px}
+.navlinks{display:flex;gap:26px;font-size:14px;letter-spacing:.5px}
+.navlinks a:hover{color:var(--gold)}
+#menuBtn{display:none;background:none;border:1px solid var(--gold);color:var(--gold);padding:6px 10px;border-radius:4px;font-size:18px}
+.cartBtn{border:1px solid var(--gold);color:var(--gold2);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;background:none}
+@media(max-width:760px){.navlinks{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg2);flex-direction:column;padding:16px 24px;border-bottom:1px solid var(--line)}
+  .navlinks.open{display:flex}#menuBtn{display:block}}
+
+/* HERO */
+.hero{min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 50% 30%,#0f2417,var(--bg) 70%);padding:60px 20px}
+.hero h1{font-size:clamp(34px,6vw,64px);color:var(--gold2);letter-spacing:2px}
+.hero p{color:var(--muted);margin:18px auto;max-width:520px;font-size:15px}
+.btn{display:inline-block;margin-top:10px;background:linear-gradient(120deg,var(--gold),#a67c2e);color:#1a1608;padding:13px 34px;border-radius:30px;font-weight:600;letter-spacing:1px;border:none;cursor:pointer;font-size:14px}
+.btn.outline{background:none;border:1px solid var(--gold);color:var(--gold2)}
+
+/* SECTIONS */
+section{padding:70px 0}
+.section-title{text-align:center;margin-bottom:44px}
+.section-title h2{font-size:32px;color:var(--gold2)}
+.section-title p{color:var(--muted);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+.about{display:flex;gap:40px;flex-wrap:wrap;align-items:center}
+.about .txt{flex:1;min-width:260px}
+.about .emblem{flex:1;min-width:220px;display:flex;justify-content:center}
+.emblem-circle{width:230px;height:230px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:70px;background:radial-gradient(circle,#12271a,var(--bg2))}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;text-align:center;transition:.2s}
+.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.card .ic{font-size:44px;margin-bottom:12px}
+.card h3{color:var(--gold2);font-size:18px;margin-bottom:6px}
+.card .price{color:var(--gold);font-weight:600;margin:10px 0}
+.card .desc{color:var(--muted);font-size:13px;min-height:36px}
+.stockoff{opacity:.45}
+.small{font-size:12px;color:var(--muted)}
+
+.stars{color:var(--gold);letter-spacing:2px}
+.reviewForm input,.reviewForm textarea,.orderForm input,.orderForm textarea,.orderForm select,.adminForm input,.adminForm textarea{
+  width:100%;padding:11px;margin:7px 0;background:var(--bg2);border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:inherit;font-size:14px}
+.reviewForm select{width:100%;padding:11px;margin:7px 0;background:var(--bg2);border:1px solid var(--line);border-radius:6px;color:var(--text)}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr}}
+.social{display:flex;gap:16px;margin-top:16px}
+.social a{border:1px solid var(--gold);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
+footer a{color:var(--gold);cursor:pointer}
+.badges{display:flex;gap:18px;justify-content:center;margin:14px 0;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px}
+.modal-bg.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--gold);border-radius:12px;padding:28px;max-width:480px;width:100%;position:relative}
+.modal h3{color:var(--gold2);margin-bottom:14px}
+.closeX{position:absolute;top:12px;right:16px;cursor:pointer;color:var(--muted);font-size:20px}
+.pmethods label{display:flex;gap:8px;align-items:center;background:var(--bg);padding:10px;border-radius:6px;margin:8px 0;border:1px solid var(--line);cursor:pointer;font-size:13px}
+.easypaisa-box{background:var(--card);border:1px dashed var(--gold);padding:10px;border-radius:6px;font-size:12px;color:var(--muted);margin-top:6px}
+.cartline{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
+
+/* ADMIN */
+#adminPanel{display:none}
+#adminPanel.show{display:block}
+.admin-shell{background:linear-gradient(180deg,#171319,var(--bg));border:1px solid var(--line);border-radius:16px;padding:30px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+.admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.admin-head h2{color:var(--gold2);font-size:24px}
+.admin-head .small{letter-spacing:1px}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
+.stat-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+.stat-card .num{font-size:22px;color:var(--gold2);font-family:'Playfair Display',serif}
+.stat-card .lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.tabbar{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.tabbar button{background:none;border:1px solid var(--line);color:var(--muted);padding:9px 18px;border-radius:24px;cursor:pointer;font-size:13px;transition:.2s}
+.tabbar button.active{border-color:var(--gold);color:var(--gold2);background:rgba(205,161,94,.1)}
+table{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:13px;min-width:520px}
+th{color:var(--gold);font-weight:400;letter-spacing:1px;text-transform:uppercase;font-size:11px;text-align:left;padding:0 12px 8px}
+td{padding:12px;background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+td:first-child{border-left:1px solid var(--line);border-radius:8px 0 0 8px}
+td:last-child{border-right:1px solid var(--line);border-radius:0 8px 8px 0}
+.badge{padding:3px 9px;border-radius:10px;font-size:11px}
+.badge.pending{background:#4a3a12;color:#f3d489}
+.badge.shipped{background:#153a4a;color:#8fd0f3}
+.badge.delivered{background:#1a4a1e;color:#a3f3a8}
+.mini{padding:4px 9px;font-size:11px;border-radius:5px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a1608;padding:12px 22px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;display:none}
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+  <div><div class="logo" id="logoClick" onclick="logoClick()" title="">HN SCENTS<span>EST. 2024 · LUXURY PERFUME HOUSE</span></div></div>
+  <div class="navlinks" id="navlinks">
+    <a href="javascript:void(0)" onclick="goTo('home')">Home</a>
+    <a href="javascript:void(0)" onclick="goTo('about')">About</a>
+    <a href="javascript:void(0)" onclick="goTo('products')">Shop</a>
+    <a href="javascript:void(0)" onclick="goTo('reviews')">Reviews</a>
+    <a href="javascript:void(0)" onclick="goTo('contact')">Contact</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="cartBtn" onclick="openCart()">🛍 Cart (<span id="cartCount">0</span>)</button>
+    <button id="menuBtn" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="reveal in">
+    <p class="small" style="letter-spacing:4px;color:var(--gold);margin-bottom:14px">KARACHI · PAKISTAN</p>
+    <h1>HN SCENTS</h1>
+    <p>An ode to elegance — rare oils, hand-blended in small batches since 2024. Wear something unforgettable.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px">
+      <a href="javascript:void(0)" onclick="goTo('products')" class="btn">Shop the Collection</a>
+      <a href="javascript:void(0)" onclick="goTo('about')" class="btn outline">Our Story</a>
+    </div>
+    <div class="badges" style="margin-top:34px">
+      <span>✦ Long-Lasting</span><span>✦ Alcohol-Free</span><span>✦ Cruelty-Free</span><span>✦ Hand-Poured</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-title"><p>Our Story</p><h2>About HN Scents</h2></div>
+    <p style="color:var(--muted);max-width:680px;margin:0 auto;text-align:center">Launched in 2024, HN Scents was born from a passion for artisanal perfumery — blending premium oils and modern elegance into fragrances that feel personal. Every bottle is a statement of quiet luxury, made for those who value craft over trend.</p>
+    <div class="stat-row" style="max-width:640px;margin:36px auto 0">
+      <div class="stat-card"><div class="num">2024</div><div class="lbl">Est.</div></div>
+      <div class="stat-card"><div class="num">100%</div><div class="lbl">Alcohol-Free</div></div>
+      <div class="stat-card"><div class="num">PK</div><div class="lbl">Made in Karachi</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="wrap">
+    <div class="section-title"><p>Our Collection</p><h2>Products</h2></div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-title"><p>Customer Love</p><h2>Reviews</h2></div>
+    <div class="grid" id="reviewGrid" style="margin-bottom:34px"></div>
+    <div class="card reviewForm" style="max-width:440px;margin:0 auto">
+      <h3 style="margin-bottom:10px">Leave a Review</h3>
+      <input id="rvName" placeholder="Your name">
+      <input id="rvHoney" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <select id="rvStars"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option></select>
+      <textarea id="rvText" rows="3" placeholder="Share your experience..."></textarea>
+      <button class="btn" style="width:100%" onclick="submitReview()">Submit Review</button>
+      <p class="small">Reviews are shown after approval.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="section-title" style="text-align:left"><p>Get In Touch</p><h2>Contact Us</h2></div>
+      <p class="small">📍 Karachi, Pakistan</p>
+      <p class="small">✉️ <span id="ctEmail">hello@hnscents.com</span></p>
+      <p class="small">📞 <span id="ctPhone">+92 3XX XXXXXXX</span></p>
+      <p class="small">💬 WhatsApp: <a id="ctWa" href="#" target="_blank">Chat with us</a></p>
+      <div class="social">
+        <a id="ctInsta" href="https://instagram.com/hnscents" target="_blank">📷</a>
+        <a id="ctTiktok" href="https://tiktok.com/@hnscents" target="_blank">🎵</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Send a Message</h3>
+      <input placeholder="Name"><input placeholder="Email" style="margin-top:8px">
+      <textarea rows="3" placeholder="Message" style="margin-top:8px"></textarea>
+      <button class="btn" style="width:100%" onclick="toast('Message sent! We will reply soon.')">Send</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="badges"><span>🔒 SSL Secured Checkout</span><span>🚚 Cash on Delivery Available</span><span>💳 EasyPaisa Accepted</span></div>
+  <div class="social" style="justify-content:center"><a id="ftInsta" href="https://instagram.com/hnscents" target="_blank">📷</a><a id="ftTiktok" href="https://tiktok.com/@hnscents" target="_blank">🎵</a></div>
+  <p style="margin-top:14px"><a onclick="openPolicy('privacy')">Privacy Policy</a> &nbsp;|&nbsp; <a onclick="openPolicy('terms')">Terms of Service</a></p>
+  <p style="margin-top:10px">© 2024 HN Scents. All rights reserved.</p>
+</footer>
+
+<!-- CART MODAL -->
+<div class="modal-bg" id="cartModal"><div class="modal">
+  <span class="closeX" onclick="closeModal('cartModal')">✕</span>
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <p style="margin-top:10px;color:var(--gold2)" id="cartTotal"></p>
+  <button class="btn" style="width:100%;margin-top:10px" onclick="closeModal('cartModal');openCheckout()">Proceed to Checkout</button>
+</div></div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-bg" id="checkoutModal"><div class="modal orderForm">
+  <span class="closeX" onclick="closeModal('checkoutModal')">✕</span>
+  <h3>Checkout</h3>
+  <input id="ordName" placeholder="Full name">
+  <input id="ordPhone" placeholder="Phone number">
+  <textarea id="ordAddress" rows="2" placeholder="Delivery address"></textarea>
+  <div class="pmethods">
+    <label><input type="radio" name="pm" value="COD" checked onclick="togglePM()"> Cash on Delivery</label>
+    <label><input type="radio" name="pm" value="EasyPaisa" onclick="togglePM()"> Pay via EasyPaisa</label>
+  </div>
+  <div class="easypaisa-box" id="epBox" style="display:none">Send payment to EasyPaisa Account: <b id="epNum">0300-1234567</b> (HN Scents), then enter your Transaction ID below.</div>
+  <input id="ordTxn" placeholder="EasyPaisa Transaction ID (if applicable)" style="display:none" id="txnInput">
+  <p style="margin-top:8px;color:var(--gold2)" id="checkoutTotal"></p>
+  <button class="btn" style="width:100%;margin-top:8px" onclick="placeOrder()">Place Order</button>
+</div></div>
+
+<!-- ADMIN GATE -->
+<div class="modal-bg" id="adminGate"><div class="modal">
+  <span class="closeX" onclick="closeModal('adminGate')">✕</span>
+  <h3>Admin Login</h3>
+  <input id="adminPass" type="password" placeholder="Enter admin passcode" autocomplete="off">
+  <button class="btn" style="width:100%;margin-top:8px" onclick="checkAdmin()">Login</button>
+</div></div>
+
+<!-- POLICY MODAL -->
+<div class="modal-bg" id="policyModal"><div class="modal">
+  <span class="closeX" onclick="closeModal('policyModal')">✕</span>
+  <h3 id="policyTitle"></h3>
+  <div id="policyBody" style="font-size:13px;color:var(--muted);max-height:50vh;overflow-y:auto"></div>
+</div></div>
+
+<!-- ADMIN PANEL -->
+<section id="adminPanel">
+  <div class="wrap">
+    <div class="admin-shell">
+      <div class="admin-head">
+        <div><h2>✦ HN Scents Dashboard</h2><p class="small">Manage your store behind the scenes</p></div>
+        <button class="mini" onclick="logoutAdmin()">Logout</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="num" id="statProducts">0</div><div class="lbl">Products</div></div>
+        <div class="stat-card"><div class="num" id="statOrders">0</div><div class="lbl">Total Orders</div></div>
+        <div class="stat-card"><div class="num" id="statPending">0</div><div class="lbl">Pending</div></div>
+        <div class="stat-card"><div class="num" id="statRevenue">0</div><div class="lbl">Revenue (PKR)</div></div>
+      </div>
+      <div class="tabbar">
+        <button class="active" onclick="showTab('prod')">🧴 Products</button>
+        <button onclick="showTab('rev')">★ Reviews</button>
+        <button onclick="showTab('ord')">📦 Orders</button>
+        <button onclick="showTab('set')">⚙ Settings</button>
+      </div>
+
+      <div id="tab-prod">
+        <div class="card adminForm" style="max-width:420px;margin-bottom:22px">
+          <h3>Add Product</h3>
+          <input id="pName" placeholder="Product name">
+          <input id="pPrice" placeholder="Price (PKR)" type="number">
+          <input id="pIcon" placeholder="Emoji icon e.g. 🌹">
+          <textarea id="pDesc" rows="2" placeholder="Short description"></textarea>
+          <button class="btn" style="width:100%" onclick="addProduct()">Add Product</button>
+        </div>
+        <div class="overflow-x"><table id="prodTable"><thead><tr><th>Icon</th><th>Name</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+      </div>
+
+      <div id="tab-rev" style="display:none">
+        <div class="overflow-x"><table id="revTable"><thead><tr><th>Name</th><th>Stars</th><th>Text</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+      </div>
+
+      <div id="tab-ord" style="display:none">
+        <div class="overflow-x"><table id="ordTable"><thead><tr><th>ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+      </div>
+
+      <div id="tab-set" style="display:none">
+        <div class="card adminForm" style="max-width:420px">
+          <h3>Store Settings</h3>
+          <label class="small">EasyPaisa Account Number</label>
+          <input id="setEP" placeholder="03XX-XXXXXXX">
+          <label class="small">WhatsApp Number (with country code, no +)</label>
+          <input id="setWa" placeholder="923XXXXXXXXX">
+          <label class="small">Phone Number (displayed)</label>
+          <input id="setPhone" placeholder="+92 3XX XXXXXXX">
+          <label class="small">Email Address</label>
+          <input id="setEmail" placeholder="hello@hnscents.com">
+          <label class="small">Instagram URL</label>
+          <input id="setInsta" placeholder="https://instagram.com/hnscents">
+          <label class="small">TikTok URL</label>
+          <input id="setTiktok" placeholder="https://tiktok.com/@hnscents">
+          <button class="btn" style="width:100%;margin-top:6px" onclick="saveSettings()">Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toastBox"></div>
+
+<script>
+// ---------- storage helpers (per-browser demo persistence) ----------
+const LS = {
+  get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+let products = LS.get('hn_products', [
+  {id:1,name:'Amber Noir',price:4500,icon:'🖤',desc:'Warm amber & oud, bold evening scent.',stock:true},
+  {id:2,name:'Velvet Bloom',price:3800,icon:'🌸',desc:'Soft floral with a musky finish.',stock:true},
+  {id:3,name:'Citrus Veil',price:3200,icon:'🍊',desc:'Fresh citrus, light and daily-wear.',stock:true}
+]);
+let reviews = LS.get('hn_reviews', [
+  {id:1,name:'Ayesha',stars:5,text:'Amber Noir lasts all day, obsessed!',status:'approved'},
+  {id:2,name:'Bilal',stars:4,text:'Great packaging and quick delivery.',status:'approved'}
+]);
+let orders = LS.get('hn_orders', []);
+let settings = LS.get('hn_settings', {easypaisa:'0300-1234567',whatsapp:'923001234567',phone:'+92 3XX XXXXXXX',email:'hello@hnscents.com',instagram:'https://instagram.com/hnscents',tiktok:'https://tiktok.com/@hnscents'});
+let cart = LS.get('hn_cart', []);
+let nextId = LS.get('hn_nextid', 100);
+
+function saveAll(){LS.set('hn_products',products);LS.set('hn_reviews',reviews);LS.set('hn_orders',orders);LS.set('hn_settings',settings);LS.set('hn_cart',cart);LS.set('hn_nextid',nextId);}
+function toast(msg){const t=document.getElementById('toastBox');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2200);}
+function toggleMenu(){document.getElementById('navlinks').classList.toggle('open')}
+function closeMenu(){document.getElementById('navlinks').classList.remove('open')}
+function goTo(id){
+  closeMenu();
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function openModal(id){document.getElementById(id).classList.add('show')}
+
+// ---------- render storefront ----------
+function renderProducts(){
+  const g=document.getElementById('productGrid'); g.innerHTML='';
+  products.forEach(p=>{
+    g.innerHTML+=`<div class="card reveal in ${p.stock?'':'stockoff'}">
+      <div class="bottle-badge">${esc(p.icon)||'🧴'}</div><h3>${esc(p.name)}</h3>
+      <div class="desc">${esc(p.desc)||''}</div>
+      <div class="price">PKR ${p.price}</div>
+      <button class="btn outline" ${p.stock?'':'disabled'} onclick="addToCart(${p.id})">${p.stock?'Add to Cart':'Out of Stock'}</button>
+    </div>`;
+  });
+}
+function renderReviews(){
+  const g=document.getElementById('reviewGrid'); g.innerHTML='';
+  reviews.filter(r=>r.status==='approved').forEach(r=>{
+    g.innerHTML+=`<div class="card"><div class="stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div><p style="margin:10px 0;font-size:13px">"${esc(r.text)}"</p><p class="small">— ${esc(r.name)}</p></div>`;
+  });
+}
+function submitReview(){
+  if(document.getElementById('rvHoney').value){return;} // honeypot: bots fill hidden fields
+  const name=document.getElementById('rvName').value.trim();
+  const text=document.getElementById('rvText').value.trim();
+  if(!name||name.length<2){toast('Please enter your name');return;}
+  if(!text||text.length<3){toast('Please write a short review');return;}
+  const btn=event.target; btn.disabled=true;
+  reviews.push({id:++nextId,name:name.slice(0,60),stars:+document.getElementById('rvStars').value,text:text.slice(0,400),status:'pending'});
+  saveAll(); document.getElementById('rvName').value='';document.getElementById('rvText').value='';
+  toast('Thanks! Your review is pending approval.');
+  setTimeout(()=>btn.disabled=false,1500);
+}
+
+// ---------- cart ----------
+function addToCart(id){
+  const line=cart.find(c=>c.id===id);
+  if(line)line.qty++; else cart.push({id,qty:1});
+  saveAll(); updateCartCount(); toast('Added to cart');
+}
+function updateCartCount(){document.getElementById('cartCount').textContent=cart.reduce((a,c)=>a+c.qty,0);}
+function cartLines(){return cart.map(c=>{const p=products.find(x=>x.id===c.id);return p?{...p,qty:c.qty}:null}).filter(Boolean);}
+function cartTotal(){return cartLines().reduce((a,l)=>a+l.price*l.qty,0);}
+function openCart(){
+  const lines=cartLines(); const box=document.getElementById('cartItems');
+  box.innerHTML = lines.length? lines.map(l=>`<div class="cartline"><span>${esc(l.name)} x${l.qty}</span><span>PKR ${l.price*l.qty}</span></div>`).join('') : '<p class="small">Your cart is empty.</p>';
+  document.getElementById('cartTotal').textContent = lines.length? 'Total: PKR '+cartTotal() : '';
+  openModal('cartModal');
+}
+function openCheckout(){
+  if(!cart.length){toast('Your cart is empty');return;}
+  document.getElementById('checkoutTotal').textContent='Total: PKR '+cartTotal();
+  document.getElementById('epNum').textContent=settings.easypaisa;
+  openModal('checkoutModal');
+}
+function togglePM(){
+  const isEP=document.querySelector('input[name=pm]:checked').value==='EasyPaisa';
+  document.getElementById('epBox').style.display=isEP?'block':'none';
+  document.getElementById('ordTxn').style.display=isEP?'block':'none';
+}
+function placeOrder(){
+  const name=document.getElementById('ordName').value.trim();
+  const phone=document.getElementById('ordPhone').value.trim();
+  const addr=document.getElementById('ordAddress').value.trim();
+  if(!name||name.length<2){toast('Please enter your full name');return;}
+  if(!/^[\d+\-\s]{9,15}$/.test(phone)){toast('Please enter a valid phone number');return;}
+  if(!addr||addr.length<8){toast('Please enter a complete delivery address');return;}
+  const pm=document.querySelector('input[name=pm]:checked').value;
+  const txn=document.getElementById('ordTxn').value.trim();
+  if(pm==='EasyPaisa'&&!txn){toast('Please enter your EasyPaisa transaction ID');return;}
+  const btn=event.target; btn.disabled=true;
+  const lines=cartLines();
+  const order={id:++nextId,name:name.slice(0,60),phone,addr:addr.slice(0,200),items:lines.map(l=>l.name+' x'+l.qty).join(', '),total:cartTotal(),payment:pm,txn:txn.slice(0,60),status:'pending'};
+  orders.push(order); cart=[]; saveAll(); updateCartCount();
+  closeModal('checkoutModal'); toast('Order placed! ID #'+order.id);
+  setTimeout(()=>btn.disabled=false,1500);
+}
+
+// ---------- hidden admin trigger (click logo 5x fast) ----------
+let logoClicks=0, logoTimer=null;
+function logoClick(){
+  logoClicks++;
+  clearTimeout(logoTimer);
+  logoTimer=setTimeout(()=>{logoClicks=0},2200);
+  if(logoClicks>=5){logoClicks=0;openAdminGate();}
+}
+// keyboard shortcut fallback: Ctrl+Shift+A
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==='a')openAdminGate();});
+
+// ---------- scroll reveal ----------
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
+document.querySelectorAll('.card, .about, .contact-grid').forEach(el=>{el.classList.add('reveal');io.observe(el);});
+
+// ---------- admin ----------
+function openAdminGate(){openModal('adminGate')}
+let adminFails=LS.get('hn_adminfails',0), adminLockUntil=LS.get('hn_lockuntil',0);
+function checkAdmin(){
+  if(Date.now()<adminLockUntil){toast('Too many attempts — try again in a minute');return;}
+  if(document.getElementById('adminPass').value==='hnscents2024'){
+    adminFails=0; LS.set('hn_adminfails',0);
+    closeModal('adminGate'); document.getElementById('adminPanel').classList.add('show');
+    document.getElementById('adminPanel').scrollIntoView(); renderAdmin();
+  } else {
+    adminFails++; LS.set('hn_adminfails',adminFails);
+    if(adminFails>=5){adminLockUntil=Date.now()+60000; LS.set('hn_lockuntil',adminLockUntil); toast('Too many attempts — locked for 60s');}
+    else toast('Incorrect passcode');
+  }
+}
+function logoutAdmin(){document.getElementById('adminPanel').classList.remove('show'); location.hash='#home';}
+function showTab(t){
+  ['prod','rev','ord','set'].forEach(x=>document.getElementById('tab-'+x).style.display = x===t?'block':'none');
+  document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+function addProduct(){
+  const name=document.getElementById('pName').value.trim();
+  const price=+document.getElementById('pPrice').value;
+  if(!name||name.length<2){toast('Enter a valid product name');return;}
+  if(!price||price<=0||price>1000000){toast('Enter a valid price');return;}
+  products.push({id:++nextId,name:name.slice(0,60),price:Math.round(price),icon:(document.getElementById('pIcon').value||'🧴').slice(0,4),desc:document.getElementById('pDesc').value.slice(0,200),stock:true});
+  saveAll(); renderAdmin(); renderProducts();
+  document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pIcon').value='';document.getElementById('pDesc').value='';
+  toast('Product added');
+}
+function toggleStock(id){const p=products.find(x=>x.id===id);p.stock=!p.stock;saveAll();renderAdmin();renderProducts();}
+function delProduct(id){products=products.filter(x=>x.id!==id);saveAll();renderAdmin();renderProducts();}
+function approveReview(id){const r=reviews.find(x=>x.id===id);r.status='approved';saveAll();renderAdmin();renderReviews();}
+function delReview(id){reviews=reviews.filter(x=>x.id!==id);saveAll();renderAdmin();renderReviews();}
+function cycleStatus(id){
+  const o=orders.find(x=>x.id===id); const seq=['pending','shipped','delivered'];
+  o.status=seq[(seq.indexOf(o.status)+1)%seq.length]; saveAll(); renderAdmin();
+}
+function saveSettings(){
+  settings.easypaisa=document.getElementById('setEP').value||settings.easypaisa;
+  settings.whatsapp=document.getElementById('setWa').value||settings.whatsapp;
+  settings.phone=document.getElementById('setPhone').value||settings.phone;
+  settings.email=document.getElementById('setEmail').value||settings.email;
+  settings.instagram=document.getElementById('setInsta').value||settings.instagram;
+  settings.tiktok=document.getElementById('setTiktok').value||settings.tiktok;
+  saveAll(); renderContactInfo(); toast('Settings saved');
+}
+function renderContactInfo(){
+  document.getElementById('ctEmail').textContent=settings.email;
+  document.getElementById('ctPhone').textContent=settings.phone;
+  document.getElementById('ctWa').href='https://wa.me/'+settings.whatsapp.replace(/\D/g,'');
+  document.getElementById('ctInsta').href=settings.instagram;
+  document.getElementById('ctTiktok').href=settings.tiktok;
+  document.getElementById('ftInsta').href=settings.instagram;
+  document.getElementById('ftTiktok').href=settings.tiktok;
+}
+function renderAdmin(){
+  document.getElementById('statProducts').textContent=products.length;
+  document.getElementById('statOrders').textContent=orders.length;
+  document.getElementById('statPending').textContent=orders.filter(o=>o.status==='pending').length;
+  document.getElementById('statRevenue').textContent=orders.reduce((a,o)=>a+o.total,0);
+  document.getElementById('prodTable').querySelector('tbody').innerHTML = products.map(p=>`<tr><td>${esc(p.icon)}</td><td>${esc(p.name)}</td><td>PKR ${p.price}</td><td>${p.stock?'In stock':'Out'}</td><td><button class="mini" onclick="toggleStock(${p.id})">Toggle</button> <button class="mini" onclick="delProduct(${p.id})">Delete</button></td></tr>`).join('');
+  document.getElementById('revTable').querySelector('tbody').innerHTML = reviews.map(r=>`<tr><td>${esc(r.name)}</td><td>${r.stars}★</td><td>${esc(r.text)}</td><td>${r.status}</td><td>${r.status==='pending'?`<button class="mini" onclick="approveReview(${r.id})">Approve</button> `:''}<button class="mini" onclick="delReview(${r.id})">Delete</button></td></tr>`).join('');
+  document.getElementById('ordTable').querySelector('tbody').innerHTML = orders.map(o=>`<tr><td>#${o.id}</td><td>${esc(o.name)}<br><span class="small">${esc(o.phone)}</span></td><td>${esc(o.items)}</td><td>PKR ${o.total}</td><td>${esc(o.payment)}</td><td><span class="badge ${o.status}">${o.status}</span></td><td><button class="mini" onclick="cycleStatus(${o.id})">Next Status</button></td></tr>`).join('');
+  document.getElementById('setEP').value=settings.easypaisa;
+  document.getElementById('setWa').value=settings.whatsapp;
+  document.getElementById('setPhone').value=settings.phone;
+  document.getElementById('setEmail').value=settings.email;
+  document.getElementById('setInsta').value=settings.instagram;
+  document.getElementById('setTiktok').value=settings.tiktok;
+}
+
+// ---------- policy ----------
+const policies={
+  privacy:'We collect only the information needed to process your order (name, phone, address). We never sell your data to third parties. Payment details for EasyPaisa are used solely for order verification.',
+  terms:'All orders are subject to availability. Prices are listed in PKR and may change without notice. Cash on Delivery orders must be paid in full upon receipt. EasyPaisa orders are confirmed after transaction verification. Returns accepted within 3 days for unopened products.'
+};
+function openPolicy(k){document.getElementById('policyTitle').textContent = k==='privacy'?'Privacy Policy':'Terms of Service';document.getElementById('policyBody').textContent=policies[k];openModal('policyModal');}
+
+renderProducts(); renderReviews(); updateCartCount(); renderContactInfo();
+</script>
+</body>
+</html>
